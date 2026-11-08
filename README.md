@@ -79,18 +79,16 @@ The default relative base also works for static folder hosting.
 ## iPhone and offline use
 
 Open the HTTPS site in Safari → Share → Add to Home Screen. Enable Open as Web
-App if offered. Start once online; "Offline ready" confirms service-worker
-installation. The interface, worklet, and WASM are cached locally. iOS may evict
+App if offered. Open once online to allow service-worker installation. The interface, logo, worklet, and WASM are cached locally. iOS may evict
 website storage; revisit online if that happens.
 
-Tap Start microphone and allow microphone access. The page requests echo
-cancellation, noise suppression, and automatic gain to be disabled; the
-diagnostics show reported settings, which are not a guarantee of raw capture.
+Tap Start tuner and allow microphone access. The page requests echo
+cancellation, noise suppression, and automatic gain to be disabled; actual capture support depends on the browser and device.
 Actual AudioContext rate is used throughout. No speaker monitoring is connected.
 Audio stops when the page goes into the background; tap Start when returning.
 This is a foreground tuner, not a background recorder.
 
-Updates are offered explicitly and stop capture before activating/reloading.
+Updates activate automatically while the tuner is stopped, without an update panel.
 Only this app's scoped caches are managed; other NoiseD web apps are unaffected.
 
 ## Tuning behavior
@@ -108,10 +106,10 @@ Only this app's scoped caches are managed; other NoiseD web apps are unaffected.
   have roughly 6 cents of interpolation error; normal guitar open strings are
   much more precise. Browser input quality and real-world harmonic ambiguity
   still require device testing.
-- "Try a reference signal" runs a silent synthetic harmonic source through the
+- "Reference signal" runs a silent synthetic harmonic source through the
   actual worklet and WASM, 7 cents below the selected string. It tests transport,
   detection, and display; it does not test the physical microphone.
-- Diagnostics report analysis centre age, not end-to-end microphone/UI latency.
+- The interface contains tuning controls and the David Portal logo link only. Internal analysis age is not presented as end-to-end latency.
 
 ## Verification
 
@@ -119,8 +117,12 @@ Automated checks exercise detuned low/mid/high notes at 44.1/48/96 kHz, quiet
 decay, silence reset, octave transitions, noise rejection, calibration, and
 the AudioWorklet-to-WASM path. Shared UI tests include SSR/accessibility.
 The initial browser pass verifies demo detection, string changes, mobile layout,
-start/stop state, install instructions, and the production service worker.
+start/stop state, calibration, logo link, and the production service worker.
 
 Before claiming microphone accuracy on iPhone, test the deployed HTTPS app on
 the actual device: all six strings, detuned notes, quiet sustain, note changes,
 permission denial/retry, app switching, and a reload in airplane mode.
+
+## Instrument layout
+
+Mobile uses an edge-to-edge layout with the pitch display above string targets and tuning controls. Desktop uses one console with the display beside the target selector. The shared TunerDisplay and BrandLink components come from noised-ui. The only external link is davidportal.dev, using the logo asset from the Spaceship project.
