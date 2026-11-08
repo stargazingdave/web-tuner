@@ -13,7 +13,9 @@ test('offline app shell, JS modules, worklet, and WASM load with Origin header v
       const store = stores.get(name);
       return {
         async addAll(files) {
-          for (const relative of files) {
+          for (const request of files) {
+            assert.equal(request.cache, 'reload', 'updates bypass stale HTTP-cached HTML and unhashed assets');
+            const relative = './' + new URL(request.url).pathname.slice(new URL(scope).pathname.length);
             // Mirror Pages artifact packaging: hidden files are not published.
             assert.ok(!relative.replace(/^\.\//, '').split('/').some(part => part.startsWith('.')),
               'Offline installation must not depend on a hidden Pages artifact: ' + relative);
@@ -38,6 +40,7 @@ test('offline app shell, JS modules, worklet, and WASM load with Origin header v
       addEventListener: (name, fn) => listeners[name] = fn,
       clients: { claim: async () => {} }, skipWaiting() {} },
     caches: cacheApi, URL, Response,
+    Request: class WorkerRequest extends Request { constructor(url, options) { super(new URL(url, scope), options); } },
     fetch: async () => { networkCalls++; throw new Error('Offline'); },
   });
   let installing;

@@ -17,7 +17,7 @@ export default defineConfig({
       // Pages artifacts omit dotfiles; never make offline installation depend on one.
       const files = (await list('dist')).filter(f => !f.endsWith('sw.js') &&
         !path.relative('dist', f).split(path.sep).some(part => part.startsWith('.'))).sort();
-      const hash = createHash('sha256').update('offline-cache-v4');
+      const hash = createHash('sha256').update('offline-cache-v5');
       for (const file of files) hash.update(await readFile(file));
       const version = hash.digest('hex').slice(0, 16);
       const urls = files.map(f => './' + path.relative('dist', f).split(path.sep).join('/'));
@@ -25,7 +25,7 @@ export default defineConfig({
 const PREFIX = 'noised-tuner-' + new URL(self.registration.scope).pathname + '-';
 const CACHE = PREFIX + VERSION;
 const FILES = ${JSON.stringify(urls)};
-self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES))));
+self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES.map(file => new Request(file, { cache: 'reload' }))))));
 self.addEventListener('message', event => { if (event.data === 'activate') self.skipWaiting(); });
 self.addEventListener('activate', event => event.waitUntil((async () => {
   await Promise.all((await caches.keys()).filter(key => key.startsWith(PREFIX) && key !== CACHE).map(key => caches.delete(key)));
