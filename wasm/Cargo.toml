@@ -1,0 +1,20 @@
+[package]
+name = "noised-tuner-wasm"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Small browser ABI for the shared NoiseD instrument tuner"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+dsp-core = { path = "../../dsp/crates/dsp-core" }
+
+[workspace]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"

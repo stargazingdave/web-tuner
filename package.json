@@ -1,0 +1,36 @@
+{
+  "name": "noised-tuner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs --prepare && vite --host 127.0.0.1 --port 5174 --strictPort",
+    "preview": "vite preview --host 127.0.0.1 --port 4174 --strictPort",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs",
+    "test:rust": "cargo test --manifest-path ../dsp/Cargo.toml -p dsp-core tuner::tests --release --offline",
+    "pin:dependencies": "node scripts/pin-dependencies.mjs"
+  },
+  "dependencies": {
+    "noised-ui": "file:../web/ui",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "@types/node": "^22",
+    "typescript": "^5.8.3",
+    "vite": "8.2.1"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "description": "An installable, offline instrument tuner powered by NoiseD Rust DSP.",
+  "repository": {
+    "url": "git+https://github.com/stargazingdave/web-tuner.git",
+    "type": "git"
+  },
+  "homepage": "https://stargazingdave.github.io/web-tuner/"
+}

@@ -1,0 +1,10 @@
+{
+  "web": {
+    "repository": "stargazingdave/noised-web",
+    "revision": "57525620d7f5e4cf9128af57c35ca8f4bde55118"
+  },
+  "dsp": {
+    "repository": "stargazingdave/noised-dsp",
+    "revision": "2def02df6d76499e1eca503c8ac993eae9eaa676"
+  }
+}
