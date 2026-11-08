@@ -172,3 +172,13 @@ h2 { font-size: 11px; font-weight: 500; color: #a1afa3; letter-spacing: .01em; m
   .console-transport { padding-top: 8px; padding-bottom: max(8px, env(safe-area-inset-bottom)); gap: 2px 12px; }
   .creator-link { min-height: 28px; }
 }
+@media (min-width: 761px) and (max-height: 640px) {
+  #root { padding: 12px 24px; }
+  .tuner-console { grid-template-rows: 56px minmax(375px, 1fr) 76px; }
+  .tuning-screen { padding: 12px 20px; }
+  .tuning-screen .noised-tuner-display { max-width: 500px; }
+  .tuning-controls { padding: 16px 18px; gap: 18px; }
+  .tuning-controls .noised-notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .tuning-controls .noised-notes button { padding-left: 9px; padding-right: 9px; gap: 9px; }
+  .console-transport { padding: 12px 24px; }
+}
