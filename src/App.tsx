@@ -72,8 +72,8 @@ export function App() {
         <SelectField label="Tuning" value={settings.tuning} onChange={event => changeSettings({ tuning: event.target.value as TuningId })}>
           {tunings.map(t => <option key={t.id} value={t.id}>{t.label.split(' · ')[0]}</option>)}
         </SelectField>
-        <SelectField label="Reference pitch" value={settings.reference} onChange={event => changeSettings({ reference: Number(event.target.value) })}>
-          {Array.from({ length: 21 }, (_, i) => <option key={430 + i} value={430 + i}>A4 = {430 + i} Hz</option>)}
+        <SelectField label="Reference pitch (A4)" value={settings.reference} onChange={event => changeSettings({ reference: Number(event.target.value) })}>
+          {Array.from({ length: 21 }, (_, i) => <option key={430 + i} value={430 + i}>{430 + i} Hz</option>)}
         </SelectField>
       </div>
     </section>
