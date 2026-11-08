@@ -14,6 +14,9 @@ test('offline app shell, JS modules, worklet, and WASM load with Origin header v
       return {
         async addAll(files) {
           for (const relative of files) {
+            // Mirror Pages artifact packaging: hidden files are not published.
+            assert.ok(!relative.replace(/^\.\//, '').split('/').some(part => part.startsWith('.')),
+              'Offline installation must not depend on a hidden Pages artifact: ' + relative);
             const url = new URL(relative, scope);
             const bytes = await readFile(new URL('../dist/' + relative.replace(/^\.\//, ''), import.meta.url));
             store.set(url.href, new Response(bytes, { headers: { Vary: 'Origin' } }));
