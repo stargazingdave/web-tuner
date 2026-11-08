@@ -40,12 +40,23 @@ jobs:
           token: ${{ secrets.NOISED_SOURCE_TOKEN || github.token }}
           persist-credentials: false
 
+      - name: Check private DSP authentication
+        env:
+          DSP_DEPLOY_KEY: ${{ secrets.DSP_DEPLOY_KEY }}
+          NOISED_SOURCE_TOKEN: ${{ secrets.NOISED_SOURCE_TOKEN }}
+        run: |
+          if [[ -z "$DSP_DEPLOY_KEY" && -z "$NOISED_SOURCE_TOKEN" ]]; then
+            echo "::error::Private noised-dsp access is missing. Add a read-only DSP_DEPLOY_KEY deploy key or a source-read NOISED_SOURCE_TOKEN Actions secret. See README.md."
+            exit 1
+          fi
+
       - name: Check out shared DSP
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           repository: ${{ steps.sources.outputs.dsp_repository }}
           ref: ${{ steps.sources.outputs.dsp_revision }}
           path: dsp
+          ssh-key: ${{ secrets.DSP_DEPLOY_KEY }}
           token: ${{ secrets.NOISED_SOURCE_TOKEN || github.token }}
           persist-credentials: false
 

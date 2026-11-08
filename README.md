@@ -63,9 +63,12 @@ source, not checked in as another implementation.
 1. Commit and push the shared web/DSP additions, then pin their revisions.
 2. Push this repository with the default branch named `main`.
 3. Set **Settings → Pages → Source → GitHub Actions**.
-4. If a shared source repository is private, add a `NOISED_SOURCE_TOKEN`
-   Actions secret with read access to those source repositories. Public sources
-   need no extra token.
+4. The shared DSP repository is private. Add a dedicated **read-only deploy key**
+   to `noised-dsp` and store its private half as the `DSP_DEPLOY_KEY` Actions
+   secret in `web-tuner`. Keep "Allow write access" disabled. The key grants
+   access to that source repository only. Alternatively, set a fine-grained
+   `NOISED_SOURCE_TOKEN` with Contents: Read access to `noised-dsp`.
+   Never commit either credential. The public shared web library needs no key.
 5. The included Pages workflow checks out all three repositories as siblings,
    builds and tests, then publishes only `dist/`.
 
